@@ -17,7 +17,7 @@ Given a list of photos and the tags associated with each photo, arrange the phot
 ## Photos
 A photo is described by a set of tags.
 
-For example , a photo with a cat on a beach, during a sunny a ernoon could be tagged with the following tags: [cat, beach, sun].
+- For example , a photo with a cat on a beach, during a sunny a ernoon could be tagged with the following tags: [cat, beach, sun].
 
 Each photo's orientation is either horizontal or vertical.
 
@@ -28,11 +28,11 @@ A slideshow is an ordered list of slides. Each slide contains either:
 
 If the slide contains a single horizontal photo, the tags of the slide are the same as the tags of the single photo it contains.
 
-For example , a slide containing a single horizontal photo with tags [cat, beach, sun], has tags [cat, beach, sun].
+- For example , a slide containing a single horizontal photo with tags [cat, beach, sun], has tags [cat, beach, sun].
 
 If the slide contains two vertical photos, the tags of the slide are all the tags present in any or both of the two photos it contains.
 
-For example , a slide containing two ve ical photos with tags [sel e, smile] for the first photo, and tags [garden, sel e] for the second photo, has tags [sel e, smile,garden].
+- For example , a slide containing two ve ical photos with tags [sel e, smile] for the first photo, and tags [garden, sel e] for the second photo, has tags [sel e, smile,garden].
 
 
 Each photo can be used either once or not at all. The slideshow must have at least one slide.
@@ -48,40 +48,52 @@ The first line of the data set contains a single integer N ( 1 ≤ N ≤ 10 5 ) 
 - An integer M i (1 ≤ M i ≤ 100) — the number of tags for that photo.
 - M i text strings — the tags for photo i . Each tag consists only of lowercase ASCII le ers and digits, between 1 and 10 characters in total.
 
-- Example:
-'''
-cat, beach, sun
-selfie, smile
-garden, selfie
-garden, cat
-'''
 
-- Input file Description:
-'''
+- *Example:*
+
+```
+cat, beach, sun
+
+selfie, smile
+
+garden, selfie
+
+garden, cat
+```
+
+- **Input file Description:**
+```
 4   //The collection has 4 photos
+
 H 3 cat beach sun   //Photo 0 is horizontal and has tags [cat, beach, sun]
+
 V 2 selfie smile    //Photo 1 is vertical and has tags [selfie, smile]
+
 V 2 garden selfie   //Photo 2 is vertical and has tags [garden, selfie]
+
 H 2 garden cat    //Photo 3 is horizontal and has tags [garden, cat]
-'''
+```
 
 ## Submissions
-# File format
+### File format
 The output le must sta with a single integer S ( 1 ≤ S ≤ N )— the number of slides in the slideshow. This must be followed by S lines describing the individual slides. Each line should contain either:
 - A single integer – ID of the single horizontal photo in the slide.
 - Two integers separated by a single space – IDs of the two ve ical photos in the slide in any order.
 
 Each photo can be used only one time or not at all.
 
-- Example: Submission file Description
-'''
+- *Example: __Submission file Description__*
+```
 3   //The slideshow has 3 slides
-0   //First slide contains photo 0
-3   //Second slide contains photo 3
-1 2   //Third slide contains photos 1 and 2
-'''
 
-# Scoring
+0   //First slide contains photo 0
+
+3   //Second slide contains photo 3
+
+1 2   //Third slide contains photos 1 and 2
+```
+
+### Scoring
 The slideshow is scored based on how interesting the transitions between each pair of subsequent (neighboring) slides are. We want the transitions to have something in common to preserve continuity (the two slides should not be totally di erent), but we also want them to be di erent enough to keep the audience interested. The similarity of two ve ical photos on a single slide is not taken into account for the scoring function. This means that two photos can, but don't have to, have tags in common. 
 
 For two subsequent slides S i and S i+1 , the interest factor is the minimum (the smallest
@@ -94,6 +106,7 @@ For example , for the slide transition from S 1 to S 2 , we know that the tags a
 - The number of common tags is 1 → [garden]
 - The number of tags in S 1 , but not is S 2 is 1 → [cat]
 - The number of tags in S 2 , but not in S 1 , is 2 → [sel e and smile]
+
 The interest factor is the minimum of these numbers, so it is 1.
 
 For a slideshow of S slides, the score will be equal to the sum of interest factors of each transition of two neighboring slides. A slideshow with only one slide has a score of zero.For example , with the input and the submission les above, the slideshow has 3 slides, hence it has 2 transitions: 
@@ -107,6 +120,7 @@ Interest factor = min(1, 2, 1) = 1
 
 Second transition, from slide S 1 (photo 3) to slide S 2 (photos 1, 2) has interest factor 1
 (see example above).
+
 Therefore, the score of this submission is 1 + 1 = 2.
 
 Note that there are multiple data sets representing separate instances of the problem. The final
