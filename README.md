@@ -35,8 +35,7 @@ Each photo can be used either once or not at all. The slideshow must have at lea
 
 ### File format
 Each input data set is provided in a plain text le containing exclusively ASCII characters with lines terminated with a single '\n' character (UNIX- style line endings). 
-The rst line of the data set contains a single integer N ( 1 ≤ N ≤ 10 5 ) — the number of photos in the collection.
-This is followed by N lines, where line i contains a description of the photo with ID i (0 ≤ i < N ). The description of photo i contains the following data, separated by a single space:
+The first line of the data set contains a single integer N ( 1 ≤ N ≤ 10 5 ) — the number of photos in the collection. This is followed by N lines, where line i contains a description of the photo with ID i (0 ≤ i < N ). The description of photo i contains the following data, separated by a single space:
 ● A single character ‘H’ if the photo is horizontal, or ‘V’ if it is ve ical.
 ● An integer M i (1 ≤ M i ≤ 100) — the number of tags for that photo.
 ● M i text strings — the tags for photo i . Each tag consists only of lowercase ASCII le ers and digits, between 1 and 10 characters in total.
@@ -53,7 +52,6 @@ H 3 cat beach sun   //Photo 0 is horizontal and has tags [cat, beach, sun]
 V 2 selfie smile    //Photo 1 is vertical and has tags [selfie, smile]
 V 2 garden selfie   //Photo 2 is vertical and has tags [garden, selfie]
 H 2 garden cat    //Photo 3 is horizontal and has tags [garden, cat]
-
 
 
 ## Submissions
@@ -78,8 +76,7 @@ number of the three) of:
 ● the number of tags in S i but not in S i+1
 ● the number of tags in S i+1 but not in S i .
 
-For example , for the slide transition from S 1 to S 2 , we know that the tags are [garden,
-cat] for S 1 , and [sel e, smile, garden] for S 2 :
+For example , for the slide transition from S 1 to S 2 , we know that the tags are [garden,cat] for S 1 , and [sel e, smile, garden] for S 2 :
 ● The number of common tags is 1 → [garden]
 ● The number of tags in S 1 , but not is S 2 is 1 → [cat]
 ● The number of tags in S 2 , but not in S 1 , is 2 → [sel e and smile]
