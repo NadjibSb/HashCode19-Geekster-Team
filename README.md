@@ -1,5 +1,5 @@
 # HashCode19-Geekster-Team
-The solution of HashCode 19 problem 
+    The solution of HashCode 19 problem 
 
 
 ## Problem statement for the Online Quali cation Round of Hash Code 2019

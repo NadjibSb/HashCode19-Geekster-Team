@@ -1,4 +1,5 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -10,97 +11,119 @@ public class Main {
 
     static ArrayList<Slide> slides = new ArrayList<>();
     static boolean slideVfull = true;
-    static int nbrV=0;
+    static int nbrV = 0;
     static SlideV s;
 
     public static void main(String[] args) throws IOException {
 
-        Path path = Paths.get("b.txt");
-        Scanner scanner = new Scanner(path);
+        ArrayList<String> files = getFolderFilesPaths("input");
 
-        String nbrImg = scanner.nextLine();
-        ArrayList<Image> images = new ArrayList();
+        for (String filePath : files) {
+            Path path = Paths.get(filePath);
+            System.out.println("******************\n- Start processing => input file : " + path.getFileName().toString());
+            Scanner scanner = new Scanner(path);
 
-        int idLigne = 0;
+            String nbrImg = scanner.nextLine();
+            ArrayList<Image> images = new ArrayList();
 
-        while(scanner.hasNextLine()){
-            //process each line
-            String line = scanner.nextLine();
-            String[] words = line.split(" ");
+            int idLigne = 0;
 
-            Image im = new Image(idLigne, words[0],Integer.parseInt(words[1]));
+            while (scanner.hasNextLine()) {
+                //process each line
+                String line = scanner.nextLine();
+                String[] words = line.split(" ");
 
-            int i=2;
-            while (i<words.length){
-                //System.out.println(words[i]+" ");
-                im.setTag(words[i]);
-                i++;
-            }
+                Image im = new Image(idLigne, words[0], Integer.parseInt(words[1]));
 
-            //System.out.println("\n"+images.get(idLigne).toString());
-            //System.out.println(idLigne);
-            //consSlide(im);
-            slides.add(new SlideH(im));
-            idLigne++;
-            words = null;
-            im = null;
-        }
-        scanner.close();
-
-        ArrayList<Slide> Nslides = new ArrayList<>();
-
-        int size = slides.size();
-
-        Nslides.add(slides.get(0));
-        slides.remove(0);
-        int j=0;
-        while(Nslides.size() != size){
-            int limit=0;
-            int max=0, id=0;
-            if (slides.size() >79999) limit=79999;
-            else limit=slides.size() ;
-
-            for (int i=0;i<limit;i++){
-                int tmp =Helper.score(Nslides.get(j),slides.get(i));
-                if(max < tmp ){
-                    max = tmp;
-                    id = i;
+                int i = 2;
+                while (i < words.length) {
+                    //System.out.println(words[i]+" ");
+                    im.setTag(words[i]);
+                    i++;
                 }
+
+                //System.out.println("\n"+images.get(idLigne).toString());
+                //System.out.println(idLigne);
+                //consSlide(im);
+                slides.add(new SlideH(im));
+                idLigne++;
+                words = null;
+                im = null;
             }
-            Nslides.add(slides.get(id));
-            slides.remove(id);
-            j++;
-            if(j%100==0) System.out.println(j+"\n");
+            scanner.close();
+
+            ArrayList<Slide> Nslides = new ArrayList<>();
+
+            int size = slides.size();
+
+            Nslides.add(slides.get(0));
+            slides.remove(0);
+            int j = 0;
+            while (Nslides.size() != size) {
+                int limit = 0;
+                int max = 0, id = 0;
+                if (slides.size() > 79999) limit = 79999;
+                else limit = slides.size();
+
+                for (int i = 0; i < limit; i++) {
+                    int tmp = Helper.score(Nslides.get(j), slides.get(i));
+                    if (max < tmp) {
+                        max = tmp;
+                        id = i;
+                    }
+                }
+                Nslides.add(slides.get(id));
+                slides.remove(id);
+                j++;
+                if (j % 100 == 0) System.out.println(j + "\n");
+            }
+
+
+            //_____________________________________________
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("output/out_" + path.getFileName().toString()));
+            writer.write(Nslides.size() + "\n");
+            for (Slide sl : Nslides) {
+                writer.append(sl.getId() + "\n");
+
+            }
+            System.out.println("\nend processing => output file : output/out_" + path.getFileName().toString() + "\n__________________");
+
+            writer.close();
         }
-
-
-        //_____________________________________________
-
-        BufferedWriter writer = new BufferedWriter(new FileWriter("outB.txt"));
-        writer.write(Nslides.size()+"\n");
-        for (Slide sl: Nslides ) {
-            writer.append(sl.getId()+"\n");
-
-        }
-
-        writer.close();
 
     }
 
-    public static void consSlide(Image img){
+    public static void consSlide(Image img) {
 
-        if (img.getOrientation().contains("H")){
+        if (img.getOrientation().contains("H")) {
             slides.add(new SlideH(img));
-        }else{
-            if (slideVfull){
+        } else {
+            if (slideVfull) {
                 s = new SlideV(img);
                 slideVfull = false;
-            }else {
+            } else {
                 s.setImage2(img);
                 slideVfull = true;
                 slides.add(s);
             }
         }
+    }
+
+    public static ArrayList<String> getFolderFilesPaths(final String name) {
+        final File folder = new File(name);
+        if (folder.exists()) {
+            ArrayList<String> paths = new ArrayList<String>();
+            for (final File fileEntry : folder.listFiles()) {
+                if (fileEntry.isDirectory()) {
+                    paths.addAll(getFolderFilesPaths(fileEntry.getPath()));
+                } else {
+                    paths.add(fileEntry.getPath());
+                }
+            }
+            return paths;
+        }
+        return null;
     }
 
 
